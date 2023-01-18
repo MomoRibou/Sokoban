@@ -1,7 +1,6 @@
   CC		=	g++
   BIN		=	`pwd | rev | cut -d "/" -f1 | rev`
-  FLAG		=	-W -Wall -g
-
+  FLAG		=	-W -Wall -Werror -g
   INCLUDE	=	-I./include/
   SRC		=	$(wildcard src/*.cpp)
   OBJ		=	$(SRC:.cpp=.o)
@@ -29,21 +28,21 @@
 
   all:		bin
   bin:		$(OBJ)
-			@$(CC) $(OBJ) -o $(BIN) $(LIB) && \
-			 $(ECHO) $(TEAL) "[OUT]" $(GREEN) $(BIN) $(DEFAULT)
+		@$(CC) $(OBJ) -o $(BIN) $(LIB) && \
+		 $(ECHO) $(TEAL) "[OUT]" $(GREEN) $(BIN) $(DEFAULT)
 
   .cpp.o:
-			@$(CC) $(INCLUDE) $(FLAG) -c $< -o $@ && \
-			 $(ECHO) $(YELLOW) "[OK] " $(PURPLE) $< $(DEFAULT) || \
-			 $(ECHO) $(RED) "[KO]  " $< $(DEFAULT)
+		@$(CC) $(INCLUDE) $(FLAG) -c $< -o $@ && \
+		 $(ECHO) $(YELLOW) "[OK] " $(PURPLE) $< $(DEFAULT) || \
+		 $(ECHO) $(RED) "[KO]  " $< $(DEFAULT)
   clean:
-			@$(RM) $(OBJ) &&                                        \
-			 $(ECHO) $(BLUE) "Object file deleted" $(DEFAULT) ||    \
-			 $(ECHO) $(RED) "Error in clean rule!" $(DEFAULT)
-  fclean:			clean
-			@$(RM) $(BIN) &&                                        \
-			 $(ECHO) $(BLUE) "Program deleted!" $(DEFAULT) ||       \
-			 $(ECHO) $(RED) "Error in fclean rule!" $(DEFAULT)
+		@$(RM) $(OBJ) &&                                        \
+		 $(ECHO) $(BLUE) "Object file deleted" $(DEFAULT) ||    \
+		 $(ECHO) $(RED) "Error in clean rule!" $(DEFAULT)
+  fclean:	clean
+		@$(RM) $(BIN) &&                                        \
+		 $(ECHO) $(BLUE) "Program deleted!" $(DEFAULT) ||       \
+		 $(ECHO) $(RED) "Error in fclean rule!" $(DEFAULT)
   re:		fclean all
 
   .PHONY: all clean fclean re
